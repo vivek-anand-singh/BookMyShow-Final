@@ -13,6 +13,8 @@ import {
 } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 import { setUser } from "../redux/userSlice";
+import { Menu as MenuComponent } from "antd";
+
 
 const roleRoutes = {
   "/admin": "admin",
@@ -21,54 +23,54 @@ const roleRoutes = {
 
 function ProtectedRoute({ children }) {
   const { user } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const navigate = useNavigate();
-  const location = useLocation();
+  // const location = useLocation();
 
   const navItems = [
-    {
-      label: "Home",
-      icon: <HomeOutlined />,
-      onClick: () => navigate("/")
-    },
-    {
-      label: ${user ? user.name : ""},
-      icon: <UserOutlined />,
-      children: [
-        {
-          label: (
-            <span
-              onClick={() => {
-                if (user.role === 'admin') {
-                  navigate("/admin");
-                } else if (user.role === 'partner') {
-                  navigate("/partner");
-                } else {
-                  navigate("/profile");
-                }
-              }}
-            >
-              My Profile
-            </span>
-          ),
-          icon: <ProfileOutlined />,
-        },
-        {
-          label: (
-            <Link
-              to="/login"
-              onClick={() => {
-                localStorage.removeItem("token");
-              }}
-            >
-              Log Out
-            </Link>
-          ),
-          icon: <LogoutOutlined />,
-        },
-      ],
-    },
-  ];
+      {
+        label: "Home",
+        icon: <HomeOutlined />,
+        onClick: () => navigate("/")
+      },
+      {
+        label: user ? user.name : "",
+        icon: <UserOutlined />,
+        children: [
+          {
+            label: (
+              <span
+                onClick={() => {
+                  if (user.role === 'admin') {
+                    navigate("/admin");
+                  } else if (user.role === 'partner') {
+                    navigate("/partner");
+                  } else {
+                    navigate("/profile");
+                  }
+                }}
+              >
+                My Profile
+              </span>
+            ),
+            icon: <ProfileOutlined />,
+          },
+          {
+            label: (
+              <Link
+                to="/login"
+                onClick={() => {
+                  localStorage.removeItem("token");
+                }}
+              >
+                Log Out
+              </Link>
+            ),
+            icon: <LogoutOutlined />,
+          },
+        ],
+      },
+    ];
 
   const getValidUser = async () => {
     try {
